@@ -1,23 +1,18 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { firebase } from '@react-native-firebase/auth';
-import React, { useContext, useEffect, useState } from 'react';
-import { createContext } from 'react';
-import { Alert, View } from 'react-native';
-import { AuthContextData } from './types';
-
-
+import {firebase} from '@react-native-firebase/auth';
+import React, {useContext, useEffect, useState} from 'react';
+import {createContext} from 'react';
+import {Alert, View} from 'react-native';
+import {AuthContextData} from './types';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({children}) => {
+  const [user, setUser] = useState<object | null>(null);
 
-	const [user, setUser] = useState<object | null>(null);
-
-
-	useEffect(() => {
+  useEffect(() => {
     async function loadStorageData() {
       const storagedUser = await AsyncStorage.getItem('@Auth:user');
-      
 
       if (storagedUser) {
         setUser(JSON.parse(storagedUser));
@@ -27,49 +22,37 @@ export const AuthProvider: React.FC = ({children}) => {
     loadStorageData();
   });
 
-	async function signIn(login:string, password:string) {
+  async function signIn(login: string, password: string) {
+    try {
+      const response = await firebase
+        .auth()
+        .signInWithEmailAndPassword(login, password);
 
-		try {
-
-			const response = await firebase.auth().signInWithEmailAndPassword(login, password);
-
-			if(!!response.user){
-				setUser(response.user);
-				await AsyncStorage.setItem("@Auth:user", JSON.stringify(response.user));
-				console.log("response", response.user);
-			}
-		
-
-		} catch (error) {
-			console.log(error);
-			
-		
-		}
-	
+      if (!!response.user) {
+        setUser(response.user);
+        await AsyncStorage.setItem('@Auth:user', JSON.stringify(response.user));
+        console.log('response', response.user);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-	async function signOut(){
-		try {
-			
-			 await firebase.auth().signOut();
+  async function signOut() {
+    try {
+      await firebase.auth().signOut();
 
-			 await AsyncStorage.clear();
-  		 setUser(null);
+      await AsyncStorage.clear();
+      setUser(null);
+    } catch (error) {}
+  }
 
-
-		} catch (error) {
-			
-		}
-	}
-
-
- return(
-
-    	<AuthContext.Provider  value={{signed: !!user, user: {}, signIn, signOut}} >
-         {children}
-			</AuthContext.Provider>
-)
-}
+  return (
+    <AuthContext.Provider value={{signed: !!user, user: {}, signIn, signOut}}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
 export default AuthContext;
 

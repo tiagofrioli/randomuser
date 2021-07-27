@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213263686677",
+    "project_id": "randomuserapp",
+    "storage_bucket": "randomuserapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213263686677:android:ea63a9278a77ab242c821c",
+        "android_client_info": {
+          "package_name": "com.randomuser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213263686677-b562b37c2ap48adq5hjah5fc5oif309u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLCSIGdY2DElzyIICpjAPP8DvIln5FHKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213263686677-b562b37c2ap48adq5hjah5fc5oif309u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
-import auth, {firebase} from '@react-native-firebase/auth';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import {GoogleSignin} from '@react-native-community/google-signin';
+import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native';
+import {useAuth} from '../context';
 import {
   ButtonLogin,
   ButtonLoginGoogle,
@@ -8,16 +9,13 @@ import {
   InputLogin,
   InputPassword,
 } from './styles';
-import {GoogleSignin} from '@react-native-community/google-signin';
-import AuthContext, {useAuth} from '../context';
-import {Alert} from 'react-native';
 
 const Signin: React.FC = () => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
-  const {signIn, signed} = useAuth();
+  const {signIn, signed, signInGoogle} = useAuth();
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -35,15 +33,7 @@ const Signin: React.FC = () => {
   }
 
   async function handleLoginGoogle() {
-    try {
-      const {idToken} = await GoogleSignin.signIn();
-
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-      const loginGoogle = await auth().signInWithCredential(googleCredential);
-
-      console.log('Google', loginGoogle);
-    } catch (error) {}
+    signInGoogle();
   }
 
   function handleInputLogin(value: string) {

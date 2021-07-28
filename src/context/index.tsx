@@ -1,14 +1,15 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {firebase} from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
 import React, {useContext, useEffect, useState} from 'react';
 import {createContext} from 'react';
-import {Alert, View} from 'react-native';
 import {AuthContextData} from './types';
+import {GoogleSignin} from '@react-native-community/google-signin';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({children}) => {
   const [user, setUser] = useState<object | null>(null);
+  /* const [userGoogle, setUserGoogle] = useState<object | null>(null); */
 
   useEffect(() => {
     async function loadStorageData() {
@@ -38,6 +39,20 @@ export const AuthProvider: React.FC = ({children}) => {
     }
   }
 
+  async function signInGoogle() {
+    try {
+      const {idToken} = await GoogleSignin.signIn();
+
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      const response = await auth().signInWithCredential(googleCredential);
+      await AsyncStorage.setItem('@Auth:user', JSON.stringify(response.user));
+      setUser(response.user);
+
+      console.log('Google', response.user);
+    } catch (error) {}
+  }
+
   async function signOut() {
     try {
       await firebase.auth().signOut();
@@ -48,7 +63,8 @@ export const AuthProvider: React.FC = ({children}) => {
   }
 
   return (
-    <AuthContext.Provider value={{signed: !!user, user: {}, signIn, signOut}}>
+    <AuthContext.Provider
+      value={{signed: !!user, user: {}, signIn, signOut, signInGoogle}}>
       {children}
     </AuthContext.Provider>
   );

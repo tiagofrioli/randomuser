@@ -3,4 +3,5 @@ export interface AuthContextData {
   user: object;
   signIn(login: string, password: string): Promise<void>;
   signOut(): void;
+  signInGoogle(): void;
 }

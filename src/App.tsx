@@ -1,17 +1,9 @@
-import 'react-native-gesture-handler';
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
+import React from 'react';
+import {useColorScheme} from 'react-native';
+import 'react-native-gesture-handler';
+import {AuthProvider} from './context/index';
 import Routes from './navigation';
-import AuthContext, {AuthProvider} from './context/index';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';

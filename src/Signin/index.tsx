@@ -1,8 +1,10 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native';
 import {useAuth} from '../context';
 import {
+  AddAccountText,
   ButtonLogin,
   ButtonLoginGoogle,
   Container,
@@ -16,6 +18,8 @@ const Signin: React.FC = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
   const {signIn, signed, signInGoogle} = useAuth();
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -68,7 +72,7 @@ const Signin: React.FC = () => {
       <ButtonLoginGoogle onPress={handleLoginGoogle}>
         <Text style={{color: '#fff', fontWeight: 'bold'}}>Login Google</Text>
       </ButtonLoginGoogle>
-      {isAuth ? <Text>Logado</Text> : null}
+      <AddAccountText onPress={()=> navigation.navigate("Signup") } ><Text style={{color: '#222', fontWeight: 'bold'}}>Criar sua conta</Text></AddAccountText>
     </Container>
   );
 };

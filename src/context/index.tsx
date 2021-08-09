@@ -4,20 +4,25 @@ import React, {useContext, useEffect, useState} from 'react';
 import {createContext} from 'react';
 import {AuthContextData} from './types';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import { ActivityIndicator, View } from 'react-native';
+import Lottie from 'lottie-react-native';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({children}) => {
   const [user, setUser] = useState<object | null>(null);
-  /* const [userGoogle, setUserGoogle] = useState<object | null>(null); */
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadStorageData() {
       const storagedUser = await AsyncStorage.getItem('@Auth:user');
+      await new Promise((resolve) => setTimeout(resolve, 5000));
 
       if (storagedUser) {
         setUser(JSON.parse(storagedUser));
       }
+
+      setLoading(false);
     }
 
     loadStorageData();
@@ -62,9 +67,11 @@ export const AuthProvider: React.FC = ({children}) => {
     } catch (error) {}
   }
 
+ 
+
   return (
     <AuthContext.Provider
-      value={{signed: !!user, user: {}, signIn, signOut, signInGoogle}}>
+      value={{signed: !!user, user: {}, signIn, signOut, signInGoogle, loading}}>
       {children}
     </AuthContext.Provider>
   );

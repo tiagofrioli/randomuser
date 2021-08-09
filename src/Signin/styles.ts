@@ -3,19 +3,23 @@ import styled, {css} from 'styled-components/native';
 export const Container = styled.SafeAreaView`
   flex: 1;
   justify-content: center;
-  background-color: #333;
+  background-color: #fff;
   align-items: center;
   padding: 20px;
 `;
 
 const styleInput = css`
-  height: 45px;
-  background-color: #fff;
-  align-self: stretch;
-  border-color: #eee;
-  border-width: 1px;
-  padding: 0 20px;
-  margin-bottom: 20px;
+  width: 300px;
+  height: 50px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+  border-bottom-width: 1px;
+  border-bottom-color: #f92e64;
+  margin-left: auto;
+  margin-right: auto;
+  color: #4d5156;
+
 `;
 
 export const InputLogin = styled.TextInput`
@@ -28,8 +32,9 @@ export const InputPassword = styled.TextInput`
 
 export const ButtonLogin = styled.TouchableOpacity`
   height: 45px;
+  width: 300px;
   background-color: #dd4b39;
-  align-self: stretch;
+  align-self: center;
   padding: 0 20px;
   justify-content: center;
   margin-bottom: 20px;
@@ -38,8 +43,9 @@ export const ButtonLogin = styled.TouchableOpacity`
 
 export const ButtonLoginGoogle = styled.TouchableOpacity`
   height: 45px;
+  width: 300px;
   background-color: #1166e8;
-  align-self: stretch;
+  align-self: center;
   padding: 0 20px;
   justify-content: center;
   align-items: center;

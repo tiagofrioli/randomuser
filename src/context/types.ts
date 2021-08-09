@@ -4,4 +4,5 @@ export interface AuthContextData {
   signIn(login: string, password: string): Promise<void>;
   signOut(): void;
   signInGoogle(): void;
+  loading: boolean;
 }
